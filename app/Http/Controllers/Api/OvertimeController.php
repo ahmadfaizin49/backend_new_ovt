@@ -228,12 +228,13 @@ class OvertimeController extends Controller
         $historyData = $overtimes->map(function (Overtime $o) use ($hariId, $bulanId) {
             $tgl = $o->tanggal;
             return [
-                'id'         => $o->id,
-                'tanggal'    => $hariId[$tgl->dayOfWeek] . ', ' . $tgl->format('d') . ' ' . $bulanId[(int) $tgl->format('n')] . ' ' . $tgl->format('Y'),
-                'hari'       => $hariId[$tgl->dayOfWeek],
-                'jam_lembur' => $o->jam_lembur,
-                'keterangan' => $o->keterangan,
-                'total'      => $o->total,
+                'id'          => $o->id,
+                'tanggal'     => $hariId[$tgl->dayOfWeek] . ', ' . $tgl->format('d') . ' ' . $bulanId[(int) $tgl->format('n')] . ' ' . $tgl->format('Y'),
+                'tanggal_iso' => $tgl->format('Y-m-d'),
+                'hari'        => $hariId[$tgl->dayOfWeek],
+                'jam_lembur'  => $o->jam_lembur,
+                'keterangan'  => $o->keterangan,
+                'total'       => $o->total,
             ];
         });
 
