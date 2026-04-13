@@ -194,7 +194,10 @@ class OvertimeController extends Controller
             $sliceEnd  = $weekEnd->gt($endDate) ? $endDate->copy() : $weekEnd;
 
             $weekTotal = $overtimes
-                ->whereBetween('tanggal', [$weekStart->toDateString(), $sliceEnd->toDateString()])
+                ->filter(function ($o) use ($weekStart, $sliceEnd) {
+                    $tgl = $o->tanggal->format('Y-m-d');
+                    return $tgl >= $weekStart->toDateString() && $tgl <= $sliceEnd->toDateString();
+                })
                 ->sum('total');
 
             $weeklyStats[] = [
