@@ -182,6 +182,7 @@ class OvertimeController extends Controller
         $summary = [
             'total_jam'         => $overtimes->sum('jam_lembur'),
             'total_penghasilan' => $overtimes->sum('total'),
+            'gaji_pokok'        => $request->user()->gaji_pokok,
         ];
 
         // ── Weekly Stats ────────────────────────────────────────
