@@ -78,7 +78,21 @@ class OvertimeController extends Controller
             'jam_lembur' => 'required|integer|min:1',
         ]);
 
-        $user        = $request->user();
+        $user = $request->user();
+
+        $exists = Overtime::where('user_id', $user->id)
+            ->whereDate('tanggal', $validated['tanggal'])
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => [
+                    'tanggal' => ['Data lembur pada tanggal ini sudah ada.']
+                ]
+            ], 422);
+        }
+
         $tarifPerJam = Overtime::hitungTarifPerJam($user->gaji_pokok);
         $total       = Overtime::hitungTotal(
             $validated['jam_lembur'],
